@@ -31,7 +31,10 @@ Muskan:
     Dahsbo. 03 : 
 
 Jason:
-- His own thing..
+- Create analysis of Demographic data (Including API, HTML and JS files):
+    Dahsbo. 01 : 
+    Dahsbo. 02 : 
+    Dahsbo. 03 : 
 
 
 
