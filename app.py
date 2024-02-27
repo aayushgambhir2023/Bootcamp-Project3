@@ -20,6 +20,14 @@ def display_data():
     
     return jsonify(data)    
 
+@app.route('/api/v1.0/demographic_data_2022_budget', methods = ['GET'])
+def display_data_demo():
+    collection = db["demographic"]  #others will need to change collection db
+    data = list(collection.find())
+    for item in data:
+        item['_id'] = str(item['_id'])
+    
+    return jsonify(data)
 
 @app.route("/")
 def welcome():
