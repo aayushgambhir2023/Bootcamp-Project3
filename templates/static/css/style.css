@@ -1,0 +1,19 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#map,
+body,
+html {
+  height: 100%;
+}
+
+/* map box style*/
+#map {
+    width: 600px; /* Set the width of the map */
+    height: 400px; /* Set the height of the map */
+    border: 1px solid #ccc; /* Add a border around the map */
+    border-radius: 5px; /* Add border radius for a rounded appearance */
+    margin: 20px auto; /* Center the map horizontally with some margin */
+  }
