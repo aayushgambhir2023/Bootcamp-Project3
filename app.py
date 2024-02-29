@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from scipy.stats import linregress
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 client = MongoClient('mongodb+srv://city_toronto:project3@cluster0.gt72z8e.mongodb.net/')
 db = client['city_toronto']
@@ -28,7 +28,7 @@ def display_data():
 #demographic data start
 @app.route('/api/v1.0/city_wards_geo', methods=['GET'])
 def display_ward_geo():
-    ward_geo = list(wards_collection.find({}, {'_id': 0}))  # Exclude _id field
+    ward_geo = list(wards_collection.find({}, {'_id': 0}))  # remove _id field
     return jsonify(ward_geo)
 
 @app.route('/api/v1.0/demographic_data_2022_budget', methods = ['GET'])
