@@ -1,7 +1,8 @@
 import pandas as pd
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_file
 from pymongo import MongoClient
 from bson import ObjectId
+import json
 
 app = Flask(__name__)
 
@@ -44,6 +45,13 @@ def display_expense_data(year):
     # Store the expense data for the specified year in the expense_data dictionary
     expense_data[year] = year_expense_data
 
+    # # Write the expense data to a JSON file
+    # file_path = f'expense_data_{year}.json'
+    # with open(file_path, 'w') as json_file:
+    #     json.dump(expense_data, json_file)
+
+    # # Return the JSON data as a response
+    # return send_file(file_path, as_attachment=True)
     return jsonify(expense_data)
 
 
