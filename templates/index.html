@@ -13,12 +13,18 @@
 
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
+<body>WELCOME TO CITY OF TORONTO WEBSITE
     <!-- The div that holds our map -->
     <div id="map"></div>
     <div id="legend"></div>
-
+    <div class="card card-body bg-light">
+      <h6>Parameter:</h6>
+      <select id="selDataset" onchange="optionChanged(this.value)"></select>
+    </div>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
