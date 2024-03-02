@@ -1,5 +1,5 @@
-// Function to fetch data and plot graph for Expense and Share
-function fetchAndPlotData(category = 'exp', year = 'null') {
+// Function to fetch data and plot graph for Revenue and Share
+function fetchAndPlotDatarev(category = 'rev', year = 'null') {
     if (!year) {
         console.error('Year not provided');
         return;
@@ -7,7 +7,7 @@ function fetchAndPlotData(category = 'exp', year = 'null') {
     
     const url = `http://127.0.0.1:5000/api/v1.0/merged_df_ak_final_${category.toLowerCase()}/${year}`;
 
-    const pieChartColors = [
+    const pieChartColorsrev = [
         'rgba(255, 99, 132, 0.6)', // Red
         'rgba(54, 162, 235, 0.6)', // Blue
         'rgba(255, 206, 86, 0.6)', // Yellow
@@ -28,21 +28,21 @@ function fetchAndPlotData(category = 'exp', year = 'null') {
         })
         .then(data => {
             const labels = data.map(item => item['Category Name']);
-            const expenses = data.map(item => item.Expense);
+            const revenues = data.map(item => item.Revenue);
             const share = data.map(item => item.Share);
 
             // Plot Expense chart
-            plotChart('myChart', labels, expenses, 'Expense', 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
+            plotChartrev('myChart', labels, revenues, 'Revenue', 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
 
             // Plot Share chart
-            plotChart1('myChart2', labels, share, 'Share in %', pieChartColors, 'rgba(255, 99, 132, 1)');
+            plotChart1rev('myChart2', labels, share, 'Share in %', pieChartColorsrev, 'rgba(255, 99, 132, 1)');
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
 }
 
-function plotChart(canvasId, labels, data, label, backgroundColor, borderColor) {
+function plotChartrev(canvasId, labels, data, label, backgroundColor, borderColor) {
     const ctx = document.getElementById(canvasId).getContext('2d');
 
     // Clear previous chart if exists
@@ -86,7 +86,7 @@ function plotChart(canvasId, labels, data, label, backgroundColor, borderColor) 
     });
 }
 
-function plotChart1(canvasId, labels, data, label, backgroundColor, borderColor) {
+function plotChart1rev(canvasId, labels, data, label, backgroundColor, borderColor) {
     const ctx = document.getElementById(canvasId).getContext('2d');
 
     // Clear previous chart if exists
@@ -117,22 +117,55 @@ function plotChart1(canvasId, labels, data, label, backgroundColor, borderColor)
     });
 }
 
-// Event listeners (unchanged)
-document.getElementById('expenseOption').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('yearDropdown').style.display = 'block';
+// Updated event listeners for hover functionality
+document.getElementById('revenueOption').addEventListener('mouseover', function() {
+    document.getElementById('yearDropdownrev').style.display = 'block';
 });
 
-document.getElementById('revenueOption').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('yearDropdown').style.display = 'none';
+document.getElementById('revenueOption').addEventListener('mouseleave', function(event) {
+    // Timeout to allow transition to submenu
+    setTimeout(() => {
+        if (!document.getElementById('yearDropdownrev').contains(event.relatedTarget)) {
+            document.getElementById('yearDropdownrev').style.display = 'none';
+        }
+    }, 300); // Adjust delay as necessary
 });
 
-document.querySelectorAll('#yearDropdown .dropdown-item').forEach(item => {
-    item.addEventListener('click', function(event) {
-        event.preventDefault();
-        const selectedYear = this.textContent.trim();
-        document.getElementById('yearDropdown').style.display = 'none';
-        fetchAndPlotData('exp', selectedYear);
-    });
+document.getElementById('yearDropdownrev').addEventListener('mouseleave', function() {
+    this.style.display = 'none';
+});
+
+// Function to toggle display of year dropdown
+function toggleYearDropdown(yearDropdownId) {
+    const dropdown = document.getElementById(yearDropdownId);
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+
+// Attach event listener to hide year dropdown if clicked outside
+document.addEventListener('click', function(event) {
+    const yearDropdownExp = document.getElementById('yearDropdownrev');
+    if (!event.target.closest('#revenueOption') && !event.target.closest('#yearDropdownrev')) {
+        yearDropdownExp.style.display = 'none';
+    }
+});
+
+// Attach event listener using event delegation for the expense dropdown year items
+document.addEventListener('click', function(event) {
+    if (event.target.closest('#yearDropdownrev .dropdown-item')) {
+        const selectedYear = event.target.textContent.trim();
+        document.getElementById('yearDropdownrev').style.display = 'none';
+        fetchAndPlotDatarev('rev', selectedYear);
+    }
+});
+
+// Initialize dropdown visibility on page load
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('yearDropdownrev').style.display = 'none';
+});
+
+// Handle dropdown visibility on pageshow for back-forward navigation
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        document.getElementById('yearDropdownrev').style.display = 'none';
+    }
 });
