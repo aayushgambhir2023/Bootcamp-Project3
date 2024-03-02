@@ -3,10 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WELCOME TO CITY OF TORONTO WEBSITE</title>
+    <title>City of Toronto Budget Data</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        /* Adjust chart container size here */
+        .chart-area {
+           margin: auto; 
 
+        }
+        @media (max-width: 768px) {
+            .chart-area {
+                width: 100%; /* Adjusts for smaller devices to stack charts */
+            }
+        }
+    </style>
 </head>
-<body>WELCOME TO CITY OF TORONTO WEBSITE
+<body>
+    <div class="header">
+        <h1>City of Toronto Budget Data</h1>
+    </div>
+    <div class="container">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Category
+            </button>
+            <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                <a class="dropdown-item" href="#" id="expenseOption">Expense</a>
+                <a class="dropdown-item" href="#" id="revenueOption">Revenue</a>
+            </div>
+        </div>
+        <!-- Year dropdown -->
+        <div class="dropdown" id="yearDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="yearDropdownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Year
+            </button>
+            <div class="dropdown-menu" aria-labelledby="yearDropdownButton">
+                <a class="dropdown-item" href="#">2019</a>
+                <a class="dropdown-item" href="#">2020</a>
+                <a class="dropdown-item" href="#">2021</a>
+                <a class="dropdown-item" href="#">2022</a>
+                <a class="dropdown-item" href="#">2023</a>
+            </div>
+        </div>
+        <!-- Row for charts -->
+        <div class="row">
+            <div class="col-md-6 chart-area">
+                <!-- Adjust container for Expense chart to be larger -->
+                <div style="width: 100%; max-width: 2000px; margin-top: 40px; margin-left: 0px;">
+                    <canvas id="myChart" style="width: 70%; height: auto;"></canvas> <!-- Chart canvas for Expense -->
+                </div>
+            </div>
+            <div class="col-md-6 chart-area">
+                <!-- Adjust container for Share chart to be slightly larger than before but still smaller than Expense chart -->
+                <div style="width: 100%; max-width: 400px; margin: auto;">
+                    <canvas id="myChart2"></canvas> <!-- Chart canvas for Share -->
+                </div>
+            </div>
+        </div>
+        
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/script_ak.js"></script> <!-- Your JavaScript file -->
 </body>
 </html>
