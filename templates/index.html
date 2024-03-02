@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WELCOME TO CITY OF TORONTO WEBSITE</title>
-
-</head>
-<body>WELCOME TO CITY OF TORONTO WEBSITE
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>City of Toronto Budget Analisys</title>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    </head>
+    <body>
+        <h1>City of Toronto Budget Analisys</h1>
+        <div id="plot">
+            <select id="selyear" onchange="optionChanged(this.value)"></select>
+            <div id="bar"></div>
+        </div>
+        <script src="../static/js/programs.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </body>
 </html>
