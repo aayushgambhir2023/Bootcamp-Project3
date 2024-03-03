@@ -25,7 +25,7 @@ def display_data():
     return jsonify(data)    
 
 
-#demographic data start
+#============================Demographic Data Start===============================
 @app.route('/api/v1.0/city_wards_geo', methods=['GET'])
 def display_ward_geo():
     ward_geo = list(wards_collection.find())
@@ -79,7 +79,7 @@ def graph_data():
     }
     return jsonify(response_data)
 
-#demographic data end
+#==========================Demographic Data End============================
 
 @app.route("/")
 def welcome():
