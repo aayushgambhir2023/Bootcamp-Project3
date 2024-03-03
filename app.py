@@ -1,18 +1,25 @@
-import pandas as pd
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, render_template, request
 from pymongo import MongoClient
-from bson import ObjectId
+from bson import ObjectId, json_util
 from sklearn.linear_model import LinearRegression
 import numpy as np
 import requests
+import json
+
 
 app = Flask(__name__)
 
 client = MongoClient('mongodb+srv://catdb:projectboot@catdbcluster.n7tfznu.mongodb.net/')
 db_ak = client['cat_db']
+
+client = MongoClient('mongodb+srv://city_toronto:project3@cluster0.gt72z8e.mongodb.net/')
+db = client['city_toronto']
+
 collection1_ak = db_ak['expense']
 collection2_ak = db_ak['revenue']
 collection3_ak = db_ak['total_year']
+
+
 ##-----------------------------------------------------------------------------------------------------------------------------##
 
 ## API to display all expense data
@@ -247,11 +254,18 @@ def display_data_summary_year_ak():
     return jsonify(data)
 
 ##-----------------------------------------------------------------------------------------------------------------------------##
+# API for expenditures by program
+@app.route('/api/program_analysis/<year>')
+def get_program_analysis(year):
+    # Get parameters from request
+
+    coll = db[f"pNl_program_{year}"]
+    program_data = list(coll.find())
+    return jsonify(json.loads(json_util.dumps(program_data)))
 
 @app.route("/")
-def welcome():
+def main():
     return render_template('index.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
