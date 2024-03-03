@@ -62,7 +62,7 @@ function plotChart(canvasId, labels, data, label, backgroundColor, borderColor) 
                 padding: {
                     left: 0,
                     right: 0,
-                    top: 0,
+                    top: 1,
                     bottom: 0
                 }
             },
@@ -93,6 +93,16 @@ function plotChart1(canvasId, labels, data, label, backgroundColor, borderColor)
             }]
         },
         options: {
+            maintainAspectRatio: true,
+            aspectRatio: 0.8,
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 2,
+                    top: 4,
+                    bottom: 0
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true

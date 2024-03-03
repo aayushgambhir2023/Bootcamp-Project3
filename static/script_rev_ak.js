@@ -73,7 +73,7 @@ function plotChartrev(canvasId, labels, data, label, backgroundColor, borderColo
                     // Adjust padding to effectively reduce the drawing area
                     left: 0,
                     right: 0,
-                    top: 0,
+                    top: 1,
                     bottom: 0
                 }
             },
@@ -108,6 +108,16 @@ function plotChart1rev(canvasId, labels, data, label, backgroundColor, borderCol
             }]
         },
         options: {
+            maintainAspectRatio: true,
+            aspectRatio: 0.8,
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 2,
+                    top: 4,
+                    bottom: 0
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true
