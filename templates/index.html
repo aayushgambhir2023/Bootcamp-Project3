@@ -25,14 +25,18 @@
       <h6>Parameter:</h6>
       <select id="selDataset" onchange="optionChanged(this.value)"></select>
     </div>
+    <div id="graph-container"><!-- this is so graph and text are beside each other -->
+      <div id="graph"></div>
+      <div id="additionalText"></div><!-- additional text for graph -->
+    </div> 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""></script>
     <!-- D3 JavaScript -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!-- Demographic JavaScript -->
-    <script type="text/javascript" src="static/js/demographic.js"></script>
+    <!-- DemographicMap JavaScript -->
+    <script type="text/javascript" src="static/js/Demographic.js"></script>
 
 </body>
 </html>
