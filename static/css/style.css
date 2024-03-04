@@ -71,7 +71,19 @@
   display: block;
 }
 
-/* CSS for the graphics output */
+/************** API TEXT output **************/
+#APIcontent ul {
+  margin: 20px;
+  font-size: 25px;
+}
+
+/************** API TEXT output **************/
+#aboutContent ul {
+  margin: 20px;
+  font-size: 25px;
+}
+
+/************** Graphics output **************/
 #graphics-output {
   margin: 20px;
 }

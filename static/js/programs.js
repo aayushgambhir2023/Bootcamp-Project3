@@ -37,7 +37,7 @@ function optionChanged(selectedYear){
              }
            };
            //plot bargraph into bar id.
-           Plotly.newPlot("bar", traceBar, layoutBar);
+           Plotly.newPlot("graphics-output", traceBar, layoutBar);
            //break to stop loop since id found
         
     })
