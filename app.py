@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, jsonify, render_template, request
 from pymongo import MongoClient
 from bson import ObjectId, json_util
@@ -25,6 +26,14 @@ statsexpense_collectiom = db['stats_expenses']
 statsrevenue_collectiom = db['stats_revenue']
 ol_all_outliers_rev_collection = db['OL_all_outliers_rev']
 ol_all_outliers_exp_collection = db['OL_all_outliers_exp']
+collections = {
+        2019: db['pNl_program_2019'],
+        2020: db['pNl_program_2020'],
+        2021: db['pNl_program_2021'],
+        2022: db['pNl_program_2022'],
+        2023: db['pNl_program_2023']
+}
+
 
 
 ##-----------------------------------------------------------------------------------------------------------------------------##
@@ -394,6 +403,41 @@ def get_expense_data():
 
     # Return the data as JSON
     return jsonify(OLexpdata)
+#---------------------------------------------------
+#Calculating total expenses, revenue and profit for each program
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
+    return response
+
+@app.route('/api/v1.0/summarized_revenue_data/<int:year>', methods=['GET'])
+def summarized_revenue_data(year):
+    summarized_revenue_data = summarize_data(year, 'rev')
+    return jsonify(summarized_revenue_data)
+
+@app.route('/api/v1.0/summarized_expense_data/<int:year>', methods=['GET'])
+def summarized_expense_data(year):
+    summarized_expense_data = summarize_data(year, 'exp')
+    return jsonify(summarized_expense_data)
+
+@app.route('/api/v1.0/summarized_profit_data/<int:year>', methods=['GET'])
+def summarized_profit_data(year):
+    summarized_profit_data = summarize_data(year, f'res-{year}')
+    return jsonify(summarized_profit_data)
+
+def summarize_data(year, field):
+    summarized_data = {}
+    data = list(collections[year].find())
+
+    for item in data:
+        program = item["Program"]
+        value = item.get(field, 0)
+        summarized_data[program] = summarized_data.get(program, 0) + value
+
+    return summarized_data
+
 
 @app.route("/")
 def main():
