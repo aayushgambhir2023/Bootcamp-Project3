@@ -9,6 +9,8 @@ html {
   height: 100%;
 }
 
+/* Demographic Style Start */
+
 /* map box style*/
 #map {
   width: 600px; 
@@ -59,3 +61,5 @@ html {
 #additionalText {
   width: 45%;
 }
+
+/* Demographic Style End */
