@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WELCOME TO CITY OF TORONTO WEBSITE</title>
-
+    <title>City of Toronto Data Visualization</title>
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>WELCOME TO CITY OF TORONTO WEBSITE
+<body>
+    <!-- Year dropdown -->
+    <select id="yearSelect">
+        <option value="2019" selected>2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+    </select>
+
+    <div id="revenuePlot"></div> <!-- Container for the revenue plot -->
+    <div id="expensePlot"></div> <!-- Container for the expense plot -->
+    <div id="profitPlot"></div> <!-- Container for the profit plot -->
+        <!-- Container for the positive profit plot -->
+    <div id="positiveProfitPlot"></div>
+    <!-- Container for the negative profit plot -->
+    <div id="negativeProfitPlot"></div>
+
+
+    <!-- Include your JavaScript file -->
+    <script src="../static/summarized_revenue_expense_profit.js"></script>
 </body>
 </html>
+
