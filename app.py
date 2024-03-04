@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask import Flask, jsonify, render_template, request
 from pymongo import MongoClient
 from bson import ObjectId, json_util
