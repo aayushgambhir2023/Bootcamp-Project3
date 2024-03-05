@@ -20,8 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function yourFunctionName(){
 
     let graphicArea = d3.select("#graphics-output");
-    graphicArea.append("h1").text("YOUR GRAPH GOES HERE!");
+    graphicArea.html("");
 
+    //Function Start:
+
+    graphicArea.append("h1").text("Graph Here");
+    
 }
 
 //ID LIST ****

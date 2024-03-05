@@ -2,6 +2,8 @@
   width: 100%;
   display: block;
   padding: 10px;
+  scale: 0.9;
+  height:200px;
 }
 
 /************** NAVIGATION BAR **************/
@@ -85,7 +87,8 @@
 
 /************** Graphics output **************/
 #graphics-output {
-  margin: 20px;
+  margin-left: 100px;
+  height: 500px;
 }
 
 
@@ -142,3 +145,4 @@
 }
 
 /*** Demographic End ***/
+
