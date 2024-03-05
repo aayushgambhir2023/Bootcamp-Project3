@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City of Toronto Budget Analisys</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <img src="https://media.istockphoto.com/id/1160964924/vector/toronto-city-skyline-skyscraper-buildings-background-vector.jpg?s=612x612&w=0&k=20&c=xXK4JpJWMYJQgZERgBg1WzGfFQviFRRW053EU64VObg=" alt="Header Image" class="header-image">
+    
+    <nav class="navigation">
+        <ul>
+            <li><a href="#" id="bHome">Home</a></li>
+            <li><a href="#" id="bAnalisys">Budget Analysis</a></li>
+            <li><a href="#" id="bAPI">Our APIs</a></li>
+            <li><a href="#" id="bAbout">About us</a></li>
+        </ul>
+    </nav>
+
+    <aside class="side-menu" id="side-menu">
+        <ul>
+            <li>
+                <a href="#">Toronto Budget Categories</a>
+                <ul>
+                    <li><a href="#" id="submenu11">Submenu 1</a></li>
+                    <li><a href="#" id="submenu12">Submenu 2</a></li>
+                    <li><a href="#" id="submenu13">Submenu 3</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Toronto Programs</a>
+                <ul>
+                    <li><a href="#" id="submenu21">Programs 5 Years</a></li>
+                    <li><a href="#" id="submenu22">Submenu 2</a></li>
+                    <li><a href="#" id="submenu23">Submenu 3</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Toronto Demographics</a>
+                <ul>
+                    <li><a href="#" id="submenu31">Submenu 1</a></li>
+                    <li><a href="#" id="submenu32">Submenu 2</a></li>
+                    <li><a href="#" id="submenu33">Submenu 3</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+    <div id="outputArea">
+        <div id="homeContent">
+            <h1>Welcome to the City of Toronto Budget Data Portal</h1>
+            <h2>Explore comprehensive budget data for the City of Toronto.</h2>
+        </div>
+        <div id="APIcontent">
+            <h2>Our API and their respectivelinks.</h2>
+            <ul>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_exp" target="_blank">merged_df_ak_final_exp</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_exp/<int:year>" target="_blank">merged_df_ak_final_exp/<int:year></a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/expense_data" target="_blank">expense_data</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/linear_regression_exp" target="_blank">linear_regression_exp</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_rev" target="_blank">merged_df_ak_final_rev</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_rev/<int:year>" target="_blank">merged_df_ak_final_rev/<int:year></a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/revenue_data" target="_blank">revenue_data</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/linear_regression_rev" target="_blank">linear_regression_rev</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/dasboard_ak" target="_blank">dasboard_ak</a></li>
+                <li><a href="https://127.0.0.1:5000/api/program_analysis/<year>" target="_blank">/api/program_analysis/<year></a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/city_wards_geo" target="_blank">city_wards_geo</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/demographic_data_2022_budget" target="_blank">demographic_data_2022_budget</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/demographic_graph_data" target="_blank">demographic_graph_data</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/new_statsrev/<int:year>" target="_blank">new_statsrev/<int:year></a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/revenue_data_mm" target="_blank">revenue_data_mm</a></li>
+                <li><a href="https://127.0.0.1:5000/api/v1.0/expense_data_mm" target="_blank">expense_data_mm</a></li>
+            </ul>
+        </div>
+        <div id="aboutContent">
+            <h1>Our Team</h1>
+            <ul>
+                <li>Anuradha Kishore</li>
+                <li>Aayush Gambhir</li>
+                <li>Jason Tong</li>
+                <li>Lucas Girelli</li>
+                <li>Muskan Mittal</li>
+            </ul>
+        </div>
+        <div id="graphics-output"></div>
+    </div>
+
+    <script src="/static/js/programs.js"></script>
+    
+    <script>
+
+        const homeLink = document.getElementById('bHome');
+        const budgetAnalysisLink = document.getElementById('bAnalisys');
+        const APILink = document.getElementById('bAPI');
+        const AboutLink = document.getElementById('bAbout');
+        const sideMenu = document.getElementById('side-menu');
+        const homeText = document.getElementById('homeContent');
+        const APIText = document.getElementById('APIcontent');
+        const AboutText = document.getElementById('aboutContent');
+        const graphArea = document.getElementById('graphics-output');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            homeLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                sideMenu.style.display = 'none';
+                homeText.style.display = 'block';
+                APIText.style.display = 'none';
+                AboutText.style.display = 'none';
+                graphArea.style.display = 'none';
+            });
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            budgetAnalysisLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                sideMenu.style.display = 'block';
+                homeText.style.display = 'none';
+                APIText.style.display = 'none';
+                AboutText.style.display = 'none';
+                graphArea.style.display = 'block';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            APILink.addEventListener('click', function(event) {
+                event.preventDefault();
+                homeText.style.display = 'none';
+                sideMenu.style.display = 'none';
+                APIText.style.display = 'block';
+                AboutText.style.display = 'none';
+                graphArea.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            AboutLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                homeText.style.display = 'none';
+                sideMenu.style.display = 'none';
+                APIText.style.display = 'none';
+                AboutText.style.display = 'block';
+                graphArea.style.display = 'none';
+            });
+        });
+
+        sideMenu.style.display = 'none';
+        APIText.style.display = 'none';
+        AboutText.style.display = 'none';
+        graphArea.style.display = 'none';
+
+    </script>
+
+</body>
+</html>
