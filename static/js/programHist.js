@@ -1,7 +1,7 @@
 //Template for Event Listener Buttons
 
 //Select your menu ID
-let selectedMenu1 = "subMenu3";
+let selectedMenu1 = "subMenu22";
 
 //Event Listener to your main function
 document.addEventListener('DOMContentLoaded', function() {
