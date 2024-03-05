@@ -396,7 +396,7 @@ def get_expense_data():
     return jsonify(OLexpdata)
 
 @app.route("/")
-def main():
+def welcome():
     return render_template('index2.html')
 
 if __name__ == '__main__':
