@@ -137,6 +137,8 @@ function generateGraphics(){
             if(yearList[yearloop] == "2023"){
                 
                 let yValues = []
+                let mcolor = "rgba(50, 171, 96, 0.6)";
+                let lcolor = "rgba(50, 171, 96, 1.0)";
 
                 console.log(prog);
                 console.log(yearList[yearloop]);
@@ -147,24 +149,40 @@ function generateGraphics(){
                     yValues = revList;
                 }else{
                     yValues = revList;
+                    mcolor = "rgba(255, 99, 71, 0.6)";
+                    lcolor = "rgba(255, 99, 71, 1.0)";
                 }
 
                 let traceBar = [{
-                    x : yearList,
-                    y : yValues,
-                    text : yValues,
-                    type : "bar",
-                    hoverinfo : "text"
-                    }];
-                    //start bargraph layout
-                    let layoutBar = {
-                    yaxis: {
-                        //tickvals: yValues, 
-                        //ticktext: yValues
+                    x: yearList,
+                    y: yValues,
+                    text: yValues.map(value => '$' + value.toLocaleString()),
+                    type: "bar",
+                    hoverinfo: "text",
+                    marker: {
+                        color: mcolor,
+                        line: {
+                            color: lcolor,
+                            width: 1
                         }
-                    };
-                    //plot bargraph into bar id.
-                    Plotly.newPlot("rightColumn", traceBar, layoutBar);    
+                    }
+                }];
+                
+                // Bar graph layout
+                let layoutBar = {
+                    title: "Yearly " +revexp +": " + prog, // Add title
+                    xaxis: {
+                        title: "Year"
+                    },
+                    yaxis: {
+                        title: "Revenue (CAD)",
+                    },
+                    plot_bgcolor: "#f7f7f7", // Set plot background color
+                    paper_bgcolor: "#f7f7f7" // Set paper background color
+                };
+                
+                // Plot bar graph
+                Plotly.newPlot("rightColumn", traceBar, layoutBar);  
             }
         });
     }
