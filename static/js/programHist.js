@@ -1,7 +1,7 @@
 //Template for Event Listener Buttons
 
 //Select your menu ID
-let selectedMenu1 = "submenu22";
+let selectedMenu1 = "subMenu3";
 
 //Event Listener to your main function
 document.addEventListener('DOMContentLoaded', function() {
@@ -23,7 +23,8 @@ function yourFunctionName(){
     graphicArea.html("");
 
     //Start of the function:
-
+    graphicArea.append("div").attr("id", "left-column").style("width", "20%");
+    graphicArea.append("div").attr("id", "right-column").style("width", "80%");
 
     url_api_base = "/api/program_analysis/";
     let yearList = ["2019","2020","2021","2022","2023"];
@@ -57,38 +58,28 @@ function yourFunctionName(){
             }
         };
         //plot bargraph into bar id.
-        Plotly.newPlot("graphics-output", traceBar, layoutBar);
-        //break to stop loop since id found    
-    
+        Plotly.newPlot("right-column", traceBar, layoutBar);
+      
 }
 
-//ID LIST ****
-/*id="submenu11">Revenues
-<id="submenu12">Expenses
-<id="submenu13">EDA Analysis
-<id="submenu13">Outliers
-<id="submenu21">Programs by Year
-<id="submenu22">Program's History
-<id="subMenu3">Demographics Data */
 
+// // Create a dropdown menu structure
+// var dropdown = d3.select("#yourDivId")
+//     .append("select")
+//     .attr("id", "myDropdown");
 
-// Create a dropdown menu structure
-var dropdown = d3.select("#yourDivId")
-    .append("select")
-    .attr("id", "myDropdown");
+// // Add options to the dropdown menu
+// var options = dropdown.selectAll("option")
+//     .data(["Option 1", "Option 2", "Option 3"])
+//     .enter()
+//     .append("option")
+//     .text(function(d) { return d; });
 
-// Add options to the dropdown menu
-var options = dropdown.selectAll("option")
-    .data(["Option 1", "Option 2", "Option 3"])
-    .enter()
-    .append("option")
-    .text(function(d) { return d; });
-
-// Add event listener to handle selection change
-dropdown.on("change", function() {
-    var selectedOption = d3.select(this).property("value");
-    console.log("Selected option:", selectedOption);
-});
+// // Add event listener to handle selection change
+// dropdown.on("change", function() {
+//     var selectedOption = d3.select(this).property("value");
+//     console.log("Selected option:", selectedOption);
+// });
 
     
     

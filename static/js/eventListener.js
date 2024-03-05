@@ -21,11 +21,7 @@ function yourFunctionName(){
 
     let graphicArea = d3.select("#graphics-output");
     graphicArea.html("");
-
-    //Function Start:
-
-    graphicArea.append("h1").text("Graph Here");
-    
+    graphicArea.append("h1").text("Grph Here"); 
 }
 
 //ID LIST ****
@@ -36,5 +32,6 @@ function yourFunctionName(){
 <id="submenu21">Programs by Year
 <id="submenu22">Program's History
 <id="subMenu3">Demographics Data */
+
     
     
