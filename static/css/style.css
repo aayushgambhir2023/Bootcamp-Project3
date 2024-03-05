@@ -1,65 +1,89 @@
-body {
-  padding: 0;
+.header-image {
+  width: 100%;
+  display: block;
+  padding: 10px;
+}
+
+/************** NAVIGATION BAR **************/
+.navigation {
+  background-color: rgb(19, 60, 138);
+  padding: 20px;
+  display: flex;
+  justify-content: left;
+}
+
+.navigation ul {
+  list-style-type: none;
   margin: 0;
+  padding: 0;
+  font-size: 32px;
+  font-family: "Arial";
+  font-weight: bold;
 }
 
-#map,
-body,
-html {
-  height: 100%;
+.navigation ul li {
+  display: inline;
+  margin-right: 20px;
 }
 
-/* Demographic Style Start */
-
-/* map box style*/
-#map {
-  width: 600px; 
-  height: 400px; 
-  border: 1px solid #ccc; 
-  border-radius: 5px; 
-  margin: 20px auto; 
+.navigation ul li a {
+  color: #ffffff;
+  text-decoration: none;
 }
 
-.info.legend {
-  background: white;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 1000;
-  text-align: center; /* center the legend content */
-  line-height: 0;
-}
-
-.info.legend i {
-  width: 18px;
-  height: 15px;
+/************** SIDE MENU **************/
+.side-menu {
   float: left;
-  margin-right: 8px;
-  opacity: 0.7;
+  width: 20%;
+  background-color: rgba(94, 134, 202, 0.75);
+  padding: 10px;
+  font-family: "Arial";
 }
 
-.legend-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+.side-menu ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-
-#graph-container {
-  display: flex;
-  justify-content: space-between;
+.side-menu ul li {
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
-#graph {
-  width: 50%;
-  height: 60vh;
+.side-menu ul li > a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 24px;
 }
 
-#additionalText {
-  width: 45%;
+.side-menu ul li ul {
+  display: none;
+  margin-left: 15px;
 }
 
-/* Demographic Style End */
+.side-menu ul li ul li > a {
+  font-size: 20px;
+  font-weight: normal; 
+}
+
+.side-menu ul li:hover ul {
+  display: block;
+}
+
+/************** API TEXT output **************/
+#APIcontent ul {
+  margin: 20px;
+  font-size: 25px;
+}
+
+/************** About TEXT output **************/
+#aboutContent ul {
+  margin: 20px;
+  font-size: 25px;
+}
+
+/************** Graphics output **************/
+#graphics-output {
+  margin: 20px;
+}
