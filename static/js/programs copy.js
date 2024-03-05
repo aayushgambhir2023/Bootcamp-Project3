@@ -1,4 +1,4 @@
-url_api_base = "/api/program_analysis/"
+// url_api_base = "/api/program_analysis/"
 
 // //Initial function to create initial elements
 // function init(){
@@ -46,18 +46,6 @@ url_api_base = "/api/program_analysis/"
 // }
 
 // init()
-
-document.addEventListener('DOMContentLoaded', function() {
-    const submenu1 = document.getElementById('submenu21');
-
-    submenu1.addEventListener('click', function(event) {
-        event.preventDefault();
-        alert("You clicked on Submenu 1!");
-    });
-
-    
-
-});
 
     
     
