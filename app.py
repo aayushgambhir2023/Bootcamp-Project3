@@ -275,7 +275,7 @@ def get_program_analysis(year):
     program_data = list(coll.find())
     return jsonify(json.loads(json_util.dumps(program_data)))
 
-#demographic data start
+#============================Demographic Data Start===============================
 @app.route('/api/v1.0/city_wards_geo', methods=['GET'])
 def display_ward_geo():
     ward_geo = list(wards_collection.find())
@@ -329,7 +329,7 @@ def graph_data():
     }
     return jsonify(response_data)
 
-#demographic data end
+#==========================Demographic Data End============================
 
 @app.route('/api/v1.0/statsexp', methods=['GET'])
 def get_stats_expense():
