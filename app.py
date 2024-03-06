@@ -33,8 +33,6 @@ collections = {
         2023: db['pNl_program_2023']
 }
 
-
-
 ##-----------------------------------------------------------------------------------------------------------------------------##
 
 ## API to display all expense data
@@ -332,6 +330,20 @@ def graph_data():
     return jsonify(response_data)
 
 #demographic data end
+
+@app.route('/api/v1.0/statsexp', methods=['GET'])
+def get_stats_expense():
+    # Fetch data from MongoDB collection and exclude the _id field
+    stats3 = statsexpense_collectiom.find_one({}, {'_id': 0})
+
+    return jsonify(stats3)
+
+@app.route('/api/v1.0/statsrev', methods=['GET'])
+def get_stats_revenue():
+    # Fetch data from MongoDB collection and exclude the _id field
+    stats2 = statsrevenue_collectiom.find_one({}, {'_id': 0})
+
+    return jsonify(stats2)
 
 @app.route('/api/v1.0/new_statsrev/<int:year>', methods=['GET'])
 def get_new_stats_by_year(year):
