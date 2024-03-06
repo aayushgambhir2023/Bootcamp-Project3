@@ -2,8 +2,9 @@
   width: 100%;
   display: block;
   padding: 10px;
-  scale: 0.9;
-  height:200px;
+  justify-content: center;
+  scale: 95%;
+  height: 200px;
 }
 
 /************** NAVIGATION BAR **************/
