@@ -5,7 +5,7 @@ let selectedMenu13 = "submenu13";
 document.addEventListener('DOMContentLoaded', function() {
     const submenu13 = document.getElementById(selectedMenu13); //Change Menu Here..
 
-    submenu14.addEventListener('click', function(event) {
+    submenu13.addEventListener('click', function(event) {
         event.preventDefault();
         //hide the Menu
         document.querySelector('.side-menu').style.display = 'none';
