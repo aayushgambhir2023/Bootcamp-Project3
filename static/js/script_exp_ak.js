@@ -30,7 +30,7 @@ function fetchAndPlotData(category = 'exp', year = 'null') {
             const expenses = data.map(item => item.Expense);
             const share = data.map(item => item.Share);
 
-            plotChart('myChart', labels, expenses, 'Expense', 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
+            plotChart('myChart', labels, expenses, `Expense in millions (${year})`, 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
             plotChart1('myChart2', labels, share, 'Share in %', pieChartColors, 'rgba(255, 99, 132, 1)');
         })
         .catch(error => {

@@ -7,7 +7,7 @@ function fetchAndPlotDatarev(category = 'rev', year = 'null') {
     
     const url = `http://127.0.0.1:5000/api/v1.0/merged_df_ak_final_${category.toLowerCase()}/${year}`;
 
-    const pieChartColorsrev = [
+    const pieChartColors = [
         'rgba(255, 99, 132, 0.6)', // Red
         'rgba(54, 162, 235, 0.6)', // Blue
         'rgba(255, 206, 86, 0.6)', // Yellow
@@ -32,17 +32,17 @@ function fetchAndPlotDatarev(category = 'rev', year = 'null') {
             const share = data.map(item => item.Share);
 
             // Plot Expense chart
-            plotChartrev('myChart', labels, revenues, 'Revenue', 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
+            plotChart('myChart', labels, revenues, `Revenue in millions (${year})`, 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
 
             // Plot Share chart
-            plotChart1rev('myChart2', labels, share, 'Share in %', pieChartColorsrev, 'rgba(255, 99, 132, 1)');
+            plotChart1('myChart2', labels, share, 'Share in %', pieChartColors, 'rgba(255, 99, 132, 1)');
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
 }
 
-function plotChartrev(canvasId, labels, data, label, backgroundColor, borderColor) {
+function plotChart(canvasId, labels, data, label, backgroundColor, borderColor) {
     const ctx = document.getElementById(canvasId).getContext('2d');
 
     // Clear previous chart if exists
@@ -86,7 +86,7 @@ function plotChartrev(canvasId, labels, data, label, backgroundColor, borderColo
     });
 }
 
-function plotChart1rev(canvasId, labels, data, label, backgroundColor, borderColor) {
+function plotChart1(canvasId, labels, data, label, backgroundColor, borderColor) {
     const ctx = document.getElementById(canvasId).getContext('2d');
 
     // Clear previous chart if exists

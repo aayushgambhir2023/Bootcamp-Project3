@@ -7,6 +7,18 @@ function fetchAndPlotDatarev_rcat(category = 'rev_subcat', year = 'null') {
     
     const url = `http://127.0.0.1:5000/api/v1.0/merged_df_ak_final_${category.toLowerCase()}/${year}`;
 
+    const pieChartColors = [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(92, 119, 0 , 0.6)',
+        'rgba(92 , 119 , 250 , 0.6)'
+    ];
+
+
 
 
     fetch(url)
@@ -22,7 +34,9 @@ function fetchAndPlotDatarev_rcat(category = 'rev_subcat', year = 'null') {
             const share = data.map(item => item.Share);
 
             // Plot Expense chart
-            plotChartrev('myChart', labels, revenues, `Revenue in millions (${year})`, 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
+            plotChart('myChart', labels, revenues, `Revenue in millions (${year})`, 'rgba(54, 162, 235, 0.8)', 'rgba(54, 162, 235, 1)');
+            plotChart1('myChart2', labels, share, 'Share in %', pieChartColors, 'rgba(255, 99, 132, 1)');
+          
 
         
         })
@@ -31,7 +45,7 @@ function fetchAndPlotDatarev_rcat(category = 'rev_subcat', year = 'null') {
         });
 }
 
-function plotChartrev(canvasId, labels, data, label, backgroundColor, borderColor) {
+function plotChart(canvasId, labels, data, label, backgroundColor, borderColor) {
     const ctx = document.getElementById(canvasId).getContext('2d');
 
     // Clear previous chart if exists
@@ -75,7 +89,7 @@ function plotChartrev(canvasId, labels, data, label, backgroundColor, borderColo
     });
 }
 
-function plotChart1rev(canvasId, labels, data, label, backgroundColor, borderColor) {
+function plotChart1(canvasId, labels, data, label, backgroundColor, borderColor) {
     const ctx = document.getElementById(canvasId).getContext('2d');
 
     // Clear previous chart if exists
@@ -116,7 +130,6 @@ function plotChart1rev(canvasId, labels, data, label, backgroundColor, borderCol
     });
 }
 
-// Updated event listeners for hover functionality
 document.getElementById('revenuesubOption').addEventListener('mouseover', function() {
     document.getElementById('yearDropdownsubrev').style.display = 'block';
 });
@@ -127,28 +140,21 @@ document.getElementById('revenuesubOption').addEventListener('mouseleave', funct
         if (!document.getElementById('yearDropdownsubrev').contains(event.relatedTarget)) {
             document.getElementById('yearDropdownsubrev').style.display = 'none';
         }
-    }, 300); // Adjust delay as necessary
+    }, 300);
 });
 
 document.getElementById('yearDropdownsubrev').addEventListener('mouseleave', function() {
     this.style.display = 'none';
 });
 
-// Function to toggle display of year dropdown
-function toggleYearDropdown(yearDropdownId) {
-    const dropdown = document.getElementById(yearDropdownId);
-    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-}
-
-// Attach event listener to hide year dropdown if clicked outside
+// Adjusted to correct reference
 document.addEventListener('click', function(event) {
-    const yearDropdownExp = document.getElementById('yearDropdownsubrev');
+    const yearDropdownSubRev = document.getElementById('yearDropdownsubrev');
     if (!event.target.closest('#revenuesubOption') && !event.target.closest('#yearDropdownsubrev')) {
-        revenuesubOption.style.display = 'none';
+        yearDropdownSubRev.style.display = 'none';
     }
 });
 
-// Attach event listener using event delegation for the expense dropdown year items
 document.addEventListener('click', function(event) {
     if (event.target.closest('#yearDropdownsubrev .dropdown-item')) {
         const selectedYear = event.target.textContent.trim();
@@ -157,12 +163,18 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Initialize dropdown visibility on page load
+// Hide all sub-category content when clicking on other menus
+document.querySelectorAll('.nav-link:not(#revenuesubOption), .navbar-brand').forEach(item => {
+    item.addEventListener('click', () => {
+        const subMenus = document.querySelectorAll('.dropdown-menu.submenu');
+        subMenus.forEach(menu => menu.style.display = 'none');
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('yearDropdownsubrev').style.display = 'none';
 });
 
-// Handle dropdown visibility on pageshow for back-forward navigation
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
         document.getElementById('yearDropdownsubrev').style.display = 'none';
