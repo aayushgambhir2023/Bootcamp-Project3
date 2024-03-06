@@ -2,6 +2,9 @@
   width: 100%;
   display: block;
   padding: 10px;
+  justify-content: center;
+  scale: 95%;
+  height: 200px;
 }
 
 /************** NAVIGATION BAR **************/
@@ -85,5 +88,6 @@
 
 /************** Graphics output **************/
 #graphics-output {
-  margin: 20px;
+  margin-left: 100px;
+  height: 500px;
 }

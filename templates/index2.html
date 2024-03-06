@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <img src="https://media.istockphoto.com/id/1160964924/vector/toronto-city-skyline-skyscraper-buildings-background-vector.jpg?s=612x612&w=0&k=20&c=xXK4JpJWMYJQgZERgBg1WzGfFQviFRRW053EU64VObg=" alt="Header Image" class="header-image">
+    <img src="https://github.com/aayushgambhir2023/Bootcamp-Project3/blob/Lucas/templates/imagess/torhead.jpeg?raw=true" alt="Header Image" class="header-image">
     
     <nav class="navigation">
         <ul>
@@ -25,26 +25,21 @@
             <li>
                 <a href="#">Toronto Budget Categories</a>
                 <ul>
-                    <li><a href="#" id="submenu11">Submenu 1</a></li>
-                    <li><a href="#" id="submenu12">Submenu 2</a></li>
-                    <li><a href="#" id="submenu13">Submenu 3</a></li>
+                    <li><a href="#" id="submenu11">Revenues</a></li>
+                    <li><a href="#" id="submenu12">Expenses</a></li>
+                    <li><a href="#" id="submenu13">EDA Analysis</a></li>
+                    <li><a href="#" id="submenu13">Outliers</a></li>
                 </ul>
             </li>
             <li>
                 <a href="#">Toronto Programs</a>
                 <ul>
-                    <li><a href="#" id="submenu21">Programs 5 Years</a></li>
-                    <li><a href="#" id="submenu22">Submenu 2</a></li>
-                    <li><a href="#" id="submenu23">Submenu 3</a></li>
+                    <li><a href="#" id="submenu21">Programs by Year</a></li>
+                    <li><a href="#" id="submenu22">Program's History</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">Toronto Demographics</a>
-                <ul>
-                    <li><a href="#" id="submenu31">Submenu 1</a></li>
-                    <li><a href="#" id="submenu32">Submenu 2</a></li>
-                    <li><a href="#" id="submenu33">Submenu 3</a></li>
-                </ul>
+                <a href="#" id="subMenu3">Demographics Data</a>
             </li>
         </ul>
     </aside>
@@ -57,22 +52,22 @@
         <div id="APIcontent">
             <h2>Our API and their respectivelinks.</h2>
             <ul>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_exp" target="_blank">merged_df_ak_final_exp</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_exp/<int:year>" target="_blank">merged_df_ak_final_exp/<int:year></a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/expense_data" target="_blank">expense_data</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/linear_regression_exp" target="_blank">linear_regression_exp</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_rev" target="_blank">merged_df_ak_final_rev</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/merged_df_ak_final_rev/<int:year>" target="_blank">merged_df_ak_final_rev/<int:year></a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/revenue_data" target="_blank">revenue_data</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/linear_regression_rev" target="_blank">linear_regression_rev</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/dasboard_ak" target="_blank">dasboard_ak</a></li>
-                <li><a href="https://127.0.0.1:5000/api/program_analysis/<year>" target="_blank">/api/program_analysis/<year></a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/city_wards_geo" target="_blank">city_wards_geo</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/demographic_data_2022_budget" target="_blank">demographic_data_2022_budget</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/demographic_graph_data" target="_blank">demographic_graph_data</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/new_statsrev/<int:year>" target="_blank">new_statsrev/<int:year></a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/revenue_data_mm" target="_blank">revenue_data_mm</a></li>
-                <li><a href="https://127.0.0.1:5000/api/v1.0/expense_data_mm" target="_blank">expense_data_mm</a></li>
+                <li><a href="/api/v1.0/merged_df_ak_final_exp" target="_blank">merged_df_ak_final_exp</a></li>
+                <li><a href="/api/v1.0/merged_df_ak_final_exp/<int:year>" target="_blank">merged_df_ak_final_exp/ (Takes input = year)<int:year></a></li>
+                <li><a href="/api/v1.0/expense_data" target="_blank">expense_data</a></li>
+                <li><a href="/api/v1.0/linear_regression_exp" target="_blank">linear_regression_exp</a></li>
+                <li><a href="/api/v1.0/merged_df_ak_final_rev" target="_blank">merged_df_ak_final_rev</a></li>
+                <li><a href="/api/v1.0/merged_df_ak_final_rev/<int:year>" target="_blank">merged_df_ak_final_rev/ (Takes input = year)<int:year></a></li>
+                <li><a href="/api/v1.0/revenue_data" target="_blank">revenue_data</a></li>
+                <li><a href="/api/v1.0/linear_regression_rev" target="_blank">linear_regression_rev</a></li>
+                <li><a href="/api/v1.0/dasboard_ak" target="_blank">dasboard_ak</a></li>
+                <li><a href="/api/program_analysis/<year>" target="_blank">/api/program_analysis/ (Takes input = year)<year></a></li>
+                <li><a href="/api/v1.0/city_wards_geo" target="_blank">city_wards_geo</a></li>
+                <li><a href="/api/v1.0/demographic_data_2022_budget" target="_blank">demographic_data_2022_budget</a></li>
+                <li><a href="/api/v1.0/demographic_graph_data" target="_blank">demographic_graph_data</a></li>
+                <li><a href="/api/v1.0/new_statsrev/<int:year>" target="_blank">new_statsrev/ (Takes input = year)<int:year></a></li>
+                <li><a href="/api/v1.0/revenue_data_mm" target="_blank">revenue_data_mm</a></li>
+                <li><a href="/api/v1.0/expense_data_mm" target="_blank">expense_data_mm</a></li>
             </ul>
         </div>
         <div id="aboutContent">
@@ -88,7 +83,7 @@
         <div id="graphics-output"></div>
     </div>
 
-    <script src="/static/js/programs.js"></script>
+    <script src="/static/js/programHist.js"></script>
     
     <script>
 
@@ -121,6 +116,7 @@
                 APIText.style.display = 'none';
                 AboutText.style.display = 'none';
                 graphArea.style.display = 'block';
+                graphArea.innerHTML = "";
             });
         });
 
