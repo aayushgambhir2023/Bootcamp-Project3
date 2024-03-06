@@ -320,12 +320,14 @@ def graph_data():
     # linear regression calculation
     slope, intercept, r_value, p_value, std_err = linregress(x_values, y_values)
     regress_values = [slope * x + intercept for x in x_values]
+    regression_equation = f"y = {slope:.4f}x + {intercept:.4f}"
 
     response_data = {
         "x_values": x_values,
         "y_values": y_values,
         "regress_values": regress_values,
-        "r_value": r_value
+        "r_value": r_value,
+        "regression_equation": regression_equation
     }
     return jsonify(response_data)
 

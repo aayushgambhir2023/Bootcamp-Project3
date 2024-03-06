@@ -71,7 +71,7 @@ submenu3.addEventListener('click', function(event) {
     graphicArea.node().appendChild(styleElement);
 
     //LEGEND CSS---------------------------------------------------------------------------------------------
-    
+
     graphicArea.append("div")
         .classed("card card-body bg-light", true)
         .html("<h6>Parameter:</h6><select id='selDatasetDemo'></select>");
@@ -266,7 +266,7 @@ submenu3.addEventListener('click', function(event) {
                 let medianIncome = wardDemographicData ? wardDemographicData["Median total income in 2020 among recipients ($)"] : 0;
                 
                 
-                let popupContent = `<b>Ward Name:</b> ${wardName}<br><b>Median Total Income:</b> ${medianIncome}`;
+                let popupContent = `<b>Ward Name:</b> ${wardName}<br><b>Median Total Income:</b> ${medianIncome.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}`;
                 
             
                 layer.bindPopup(popupContent);
@@ -306,8 +306,7 @@ submenu3.addEventListener('click', function(event) {
                 let wardDemographicData = demographicData.find(entry => entry.Ward === wardName);
                 let averageIncome = wardDemographicData ? wardDemographicData["Average total income in 2020 among recipients ($)"] : 0;
                 
-
-                let popupContent = `<b>Ward Name:</b> ${wardName}<br><b>Average Total Income:</b> ${averageIncome}`;
+                let popupContent = `<b>Ward Name:</b> ${wardName}<br><b>Average Total Income:</b> ${averageIncome.toLocaleString('en-US', { style: 'currency', currency: 'CAD' })}`;
                 
 
                 layer.bindPopup(popupContent);
@@ -390,6 +389,7 @@ submenu3.addEventListener('click', function(event) {
                 let yValues = data.y_values;
                 let regressValues = data.regress_values;
                 let rValue = data.r_value;
+                let regressionEquation = data.regression_equation;
 
                 //trace for scatter plot
                 let scatterTrace = {
@@ -397,7 +397,7 @@ submenu3.addEventListener('click', function(event) {
                     y: yValues,
                     mode: "markers",
                     marker: {color: "red", opacity: 0.7},
-                    name: "Population Density of Each Ward"
+                    name: `${selectedValue} of Each Ward`
                 };
 
                 //trace for regression line
@@ -406,25 +406,41 @@ submenu3.addEventListener('click', function(event) {
                     y: regressValues,
                     mode: "lines",
                     line: {color: "blue"},
-                    name: "Population Density Regression Line"
+                    name: `${selectedValue} Regression Line`
                 };
 
                 //graph layout
                 let layout = {
-                    title: "Relationship between Population Density and Budget Allocation",
-                    xaxis: {title: "Population Density per Square Kilometer"},
+                    title: {
+                        text: `Relationship between ${selectedValue} and Budget Allocation`,
+                        font: {
+                            size: 14 // Adjust the font size as needed
+                        }
+                    },
+                    xaxis: {title: `${selectedValue}`},
                     yaxis: {title: "Budget Allocation in 2022 ($)"},
                     showlegend: true,
                     legend: {x: 1, xanchor: "right", y: 1},
-                    annotations: [{
-                        x: 0.0,
-                        y: -0.1,
-                        xref: "paper",
-                        yref: "paper",
-                        text: `The Population Density r-value is: ${rValue}`,
-                        showarrow: false,
-                        font: {size: 12},
-                    }]
+                    annotations: [
+                        {
+                            x: 0.0,
+                            y: -0.1,
+                            xref: "paper",
+                            yref: "paper",
+                            text: `The ${selectedValue} r-value is: ${rValue}`,
+                            showarrow: false,
+                            font: {size: 12},
+                        },
+                        {
+                            x: 0.5, // Adjust x position as needed
+                            y: 0.45, // Adjust y position as needed
+                            xref: 'paper',
+                            yref: 'paper',
+                            text: `Regression Equation: ${regressionEquation}`,
+                            showarrow: false,
+                            font: {size: 12},
+                        }
+                    ]
                 };
 
                 //plot graph
@@ -444,8 +460,10 @@ submenu3.addEventListener('click', function(event) {
         
         if (selectedValue === options[0]) {
             additionalText.innerHTML = "This is an analysis of how the population density per square kilometers of wards in Toronto impacts how much budget Toronto allocates to to the wards.<br> The correlation coefficient suggests a positive correlation, so as population density increases, the budget allocation tends to increase as well, but the relationship is weak to moderate.";
+        } else if (selectedValue === options[1]) {
+            additionalText.innerHTML = "This graph is made to understand how income levels influence budget allocation. <br>We used the income in 2020 because this would be the data they receive in 2021 to determine the 2022 budget if there was an impact, and used both median income and average income. <br>The median income regression, much like the average income regression suggests a positive relationship. <br>However, when looking at the correlation coefficient, both are relatively weak, so we can’t claim that income levels play a significant part in deciding budget choices. <br>There could be many other factors that could influence the budget.";
         } else {
-            additionalText.innerHTML = "This graph is made to understand how income levels influence budget allocation. <br>We used the income in 2020 because this would be the data they receive in 2021 to determine the 2022 budget if there was an impact, and used both median income and average income. <br>Both regression suggests a positive relationship. <br>However, when looking at the correlation coefficient, both are relatively weak, so we can’t claim that income levels play a significant part in deciding budget choices. <br>There could be many other factors that could influence the budget.";
+            additionalText.innerHTML = "This graph is made to understand how income levels influence budget allocation. <br>We used the income in 2020 because this would be the data they receive in 2021 to determine the 2022 budget if there was an impact, and used both median income and average income. <br>The average income regression, much like the median income regression suggests a positive relationship. <br>However, when looking at the correlation coefficient, both are relatively weak, so we can’t claim that income levels play a significant part in deciding budget choices. <br>There could be many other factors that could influence the budget.";
         }
     }
 
