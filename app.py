@@ -275,6 +275,19 @@ def get_program_analysis(year):
     program_data = list(coll.find())
     return jsonify(json.loads(json_util.dumps(program_data)))
 
+@app.route('/api/program_analysis/all/')
+def get_program_analysis_all():
+    # Get parameters from request
+
+    yearlist = ["2019", "2020", "2021", "2022", "2023"]
+    program_data = []
+
+    for year in yearlist:
+        coll = db[f"pNl_program_{year}"]
+        program_data.append(coll.find())
+
+    return jsonify(json.loads(json_util.dumps(program_data)))
+
 #============================Demographic Data Start===============================
 @app.route('/api/v1.0/city_wards_geo', methods=['GET'])
 def display_ward_geo():
