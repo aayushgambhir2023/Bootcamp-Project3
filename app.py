@@ -25,7 +25,13 @@ statsexpense_collectiom = db['stats_expenses']
 statsrevenue_collectiom = db['stats_revenue']
 ol_all_outliers_rev_collection = db['OL_all_outliers_rev']
 ol_all_outliers_exp_collection = db['OL_all_outliers_exp']
-
+collections = {
+        2019: db['pNl_program_2019'],
+        2020: db['pNl_program_2020'],
+        2021: db['pNl_program_2021'],
+        2022: db['pNl_program_2022'],
+        2023: db['pNl_program_2023']
+}
 
 ##-----------------------------------------------------------------------------------------------------------------------------##
 
@@ -269,7 +275,20 @@ def get_program_analysis(year):
     program_data = list(coll.find())
     return jsonify(json.loads(json_util.dumps(program_data)))
 
-#demographic data start
+@app.route('/api/program_analysis/all/')
+def get_program_analysis_all():
+    # Get parameters from request
+
+    yearlist = ["2019", "2020", "2021", "2022", "2023"]
+    program_data = []
+
+    for year in yearlist:
+        coll = db[f"pNl_program_{year}"]
+        program_data.append(coll.find())
+
+    return jsonify(json.loads(json_util.dumps(program_data)))
+
+#============================Demographic Data Start===============================
 @app.route('/api/v1.0/city_wards_geo', methods=['GET'])
 def display_ward_geo():
     ward_geo = list(wards_collection.find())
@@ -323,7 +342,21 @@ def graph_data():
     }
     return jsonify(response_data)
 
-#demographic data end
+#==========================Demographic Data End============================
+
+@app.route('/api/v1.0/statsexp', methods=['GET'])
+def get_stats_expense():
+    # Fetch data from MongoDB collection and exclude the _id field
+    stats3 = statsexpense_collectiom.find_one({}, {'_id': 0})
+
+    return jsonify(stats3)
+
+@app.route('/api/v1.0/statsrev', methods=['GET'])
+def get_stats_revenue():
+    # Fetch data from MongoDB collection and exclude the _id field
+    stats2 = statsrevenue_collectiom.find_one({}, {'_id': 0})
+
+    return jsonify(stats2)
 
 @app.route('/api/v1.0/new_statsrev/<int:year>', methods=['GET'])
 def get_new_stats_by_year(year):
@@ -394,10 +427,45 @@ def get_expense_data():
 
     # Return the data as JSON
     return jsonify(OLexpdata)
+#---------------------------------------------------
+#Calculating total expenses, revenue and profit for each program
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    response.headers['Access-Control-Allow-Methods'] = 'GET'
+    return response
+
+@app.route('/api/v1.0/summarized_revenue_data/<int:year>', methods=['GET'])
+def summarized_revenue_data(year):
+    summarized_revenue_data = summarize_data(year, 'rev')
+    return jsonify(summarized_revenue_data)
+
+@app.route('/api/v1.0/summarized_expense_data/<int:year>', methods=['GET'])
+def summarized_expense_data(year):
+    summarized_expense_data = summarize_data(year, 'exp')
+    return jsonify(summarized_expense_data)
+
+@app.route('/api/v1.0/summarized_profit_data/<int:year>', methods=['GET'])
+def summarized_profit_data(year):
+    summarized_profit_data = summarize_data(year, f'res-{year}')
+    return jsonify(summarized_profit_data)
+
+def summarize_data(year, field):
+    summarized_data = {}
+    data = list(collections[year].find())
+
+    for item in data:
+        program = item["Program"]
+        value = item.get(field, 0)
+        summarized_data[program] = summarized_data.get(program, 0) + value
+
+    return summarized_data
+
 
 @app.route("/")
 def welcome():
-    return render_template('index2.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
 //Initial Graph Function
 function startGraph(){
 
-    //Select D3 Area and clear Content
+    //Select D3 Area, clear Content and adjust side-by side view
     let graphicArea = d3.select("#graphics-output");
     graphicArea.html("");
+    graphicArea.style("display", "flex");
 
-    //Create Divs:
+    //Create Divs for grph and Dropr menus + summary:
     graphicArea.append("div").attr("id", "leftColumn").style("width", "20%");
     graphicArea.append("div").attr("id", "rightColumn").style("width", "80%");
-    graphicArea.style("display", "flex");
 
     //Select Divs
     let leftColumn = d3.select("#leftColumn");
@@ -43,7 +43,7 @@ function startGraph(){
     .style("margin-top", "15px");
 
     menuRevExp.append("option").attr("value", "Revenue").text("Revenue");
-    menuRevExp.append("option").attr("value", "Expense").text("Expense");
+    menuRevExp.append("option").attr("value", "Expense").text("Expenses");
 
     //Add DropDown for Program Selection
     let menuProgram = leftColumn.append("select").attr("id", "ddProg")
@@ -53,8 +53,15 @@ function startGraph(){
     
     menuProgram.append("option").attr("value", "").text("Select a Program");
 
+    //create Div for summary graph
+    leftColumn.append("div")
+    .attr("id", "leftColumn2")
+    .style("height", "80%")
+    .style("z-index", "0");
+
     //URL
     url_api_base = "/api/program_analysis/2023";
+
     //Get API info to Populate DropDown
     getJson(url_api_base).then(function(data){
         
@@ -107,83 +114,135 @@ function handleProgramSelection() {
     });
 }
 
+//Function to update graphics
 function generateGraphics(){
+    //Select page elements
     let menuRevExp = d3.select("#ddRevExp");
     let menuProg = d3.select("#ddProg");
 
+    //Get current values at the moment selected
     let revexp = menuRevExp.property("value");
     let prog = menuProg.property("value");
 
     //console.log(revexp);
     //console.log(prog);
 
+    // Start Lists
     let revList = [];
     let expList = [];
     let yearList = ["2019","2020","2021","2022","2023"];
 
-    url_api_base = "/api/program_analysis/";
+    //URL for All years API
+    url = "/api/program_analysis/all";
 
-    for (let yearloop = 0; yearloop < yearList.length; yearloop++){
-        url = url_api_base + yearList[yearloop];
-        getJson(url).then(function(data){
-        
-            for (let plooper = 0; plooper < data.length; plooper++){
-                if(data[plooper].Program == prog){
-                    revList[yearloop] = data[plooper].rev
-                    expList[yearloop] = data[plooper].exp
+    //Loop through all items(years) of the json
+    getJson(url).then(function(data){
+        for (let yearloop = 0; yearloop < yearList.length; yearloop++){
+            datayear = data[yearloop];
+            //Search the slected program for the values
+            for (let progloop = 0; progloop < datayear.length; progloop++){
+                if(datayear[progloop].Program == prog){
+                    revList[yearloop] = datayear[progloop].rev
+                    expList[yearloop] = datayear[progloop].exp
                 }
             }
+        }
 
-            if(yearList[yearloop] == "2023"){
-                
-                let yValues = []
-                let mcolor = "rgba(50, 171, 96, 0.6)";
-                let lcolor = "rgba(50, 171, 96, 1.0)";
+        //Start Line Graph Values
+        let yValues = []
+        let mcolor = "rgba(50, 171, 96, 0.6)";
+        let lcolor = "rgba(50, 171, 96, 1.0)";
+    
+        //Set type (rev or Expenses) determ. list and color
+        if(revexp == "Revenue"){
+            yValues = revList;
+        }else{
+            yValues = expList;
+            mcolor = "rgba(255, 99, 71, 0.6)";
+            lcolor = "rgba(255, 99, 71, 1.0)";
+        }
 
-                console.log(prog);
-                console.log(yearList[yearloop]);
-                console.log(revList);
-                console.log(expList);
+        // Line graph infos
+        let traceLine = [{
+            x: yearList,
+            y: yValues,
+            text: yValues.map(value => '$' + value.toLocaleString()),
+            type: "scatter",
+            mode: "lines",
+            hoverinfo: "text",
+            line: {
+                color: mcolor,
+                width: 5, 
+                shape: "spline", // ChatGPT part for curvy line
+            },
+            fill: "tozeroy" // ChatGPT part for filling area underneath the line
+        }];
 
-                if(revexp == "Revenue"){
-                    yValues = revList;
-                }else{
-                    yValues = revList;
-                    mcolor = "rgba(255, 99, 71, 0.6)";
-                    lcolor = "rgba(255, 99, 71, 1.0)";
-                }
-
-                let traceBar = [{
-                    x: yearList,
-                    y: yValues,
-                    text: yValues.map(value => '$' + value.toLocaleString()),
-                    type: "bar",
-                    hoverinfo: "text",
-                    marker: {
-                        color: mcolor,
-                        line: {
-                            color: lcolor,
-                            width: 1
-                        }
-                    }
-                }];
-                
-                // Bar graph layout
-                let layoutBar = {
-                    title: "Yearly " +revexp +": " + prog, // Add title
-                    xaxis: {
-                        title: "Year"
-                    },
-                    yaxis: {
-                        title: "Revenue (CAD)",
-                    },
-                    plot_bgcolor: "#f7f7f7", // Set plot background color
-                    paper_bgcolor: "#f7f7f7" // Set paper background color
-                };
-                
-                // Plot bar graph
-                Plotly.newPlot("rightColumn", traceBar, layoutBar);  
+        // Line graph layout
+        let layoutLine = {
+            title: "Yearly " + revexp + ": " + prog,
+            xaxis: {
+                title: "Year",
+                tickmode: "array", 
+                tickvals: yearList 
+            },
+            yaxis: {
+                title: "Revenue (CAD)",
+                zeroline: false 
+            },
+            plot_bgcolor: "#f7f7f7",
+            paper_bgcolor: "#f7f7f7",
+            margin: {
+                t: 50,
+                l: 50,
+                r: 50,
+                b: 50
             }
-        });
-    }
+        };
+
+        // Plot line graph
+        Plotly.newPlot("rightColumn", traceLine, layoutLine);
+
+        // Calculate total amounts for Summary Graph
+        let totalRev = 0;
+        let totalExp = 0;
+
+        for (let totloop = 0; totloop < revList.length; totloop++){
+            totalRev = totalRev + revList[totloop];
+            totalExp = totalExp + expList[totloop];
+        }
+
+        //Summary Bar Graph
+        let xValues2 = ["Revenue", "Expenses"];
+        let yValues2 = [totalRev, totalExp];
+        let colors2 = ["rgba(50, 171, 96, 0.6)", "rgba(255, 99, 71, 0.6)"];
+
+        let traceBar2 = [{
+            x : xValues2,
+            y : yValues2,
+            text : yValues2.map(value2 => '$' + value2.toLocaleString()),
+            type : "bar",
+            hoverinfo : "text",
+            marker: {
+                color: colors2 
+            }
+            }];
+            //start bargraph layout
+            let layoutBar2 = {
+            title: "Results - 5 Years",
+            yaxis: { 
+                ticktext: yValues2
+                }
+            };
+            //plot bargraph into lC2.
+            Plotly.newPlot("leftColumn2", traceBar2, layoutBar2);
+    
+    });
+
 }
+
+
+
+
+
+    
