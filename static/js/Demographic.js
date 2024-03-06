@@ -55,6 +55,7 @@ submenu3.addEventListener('click', function(event) {
     .circle {
         width: 12px;
         height: 12px;
+        border: 1px solid black;
         border-radius: 50%;
         margin-right: 5px;
     }
