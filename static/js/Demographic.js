@@ -8,48 +8,70 @@ submenu3.addEventListener('click', function(event) {
     event.preventDefault();
     //hide the Menu
     document.querySelector('.side-menu').style.display = 'none';
-    //Call Function
+ 
 
     let graphicArea = d3.select("#graphics-output");
     graphicArea.html("");
 
-    //Start of the function:
+    // Append the flex container
     graphicArea.append("div")
         .attr("id", "DemographicMapBox")
-        .style("display","flex")
+        .style("display", "flex")
+        .style("flex-wrap", "wrap")
         .style("width", "600px")
         .style("height", "500px")
         .style("border", "1px solid #ccc")
         .style("border-radius", "5px")
         .style("z-index", "500")
         .style("margin", "20px auto");
-        
+
+    // Select the flex container and append the Leaflet map to it
     graphicArea.select("#DemographicMapBox")
         .append("div")
         .attr("id", "DemographicMap")
-        .style("z-index","1");
+        .style("flex", "1 1 100%") // Ensures the Leaflet map takes full width
+        .style("height", "100%") // Set the height to 100% for the Leaflet map
+        .style("z-index", "1");
 
-    graphicArea.append("div")
-        .attr("id", "legend")
-        .classed("info legend", true)
-        .style("background", "white")
-        .style("padding", "5px")
-        .style("border", "1px solid #ccc")
-        .style("border-radius", "5px")
-        .style("position", "absolute")
-        .style("bottom", "10px")
-        .style("right", "10px")
-        .style("z-index", "1000")
-        .style("text-align", "center");
 
-    graphicArea.select("legend")
-        .selectAll(".legend-item")
-        .enter().append("div")
-        .classed("legend-item", true)
-        .style("display", "flex")
-        .style("align-items", "center")
-        .style("margin-bottom", "5px");
 
+    //LEGEND CSS---------------------------------------------------------------------------------------------
+    // Define CSS rules
+    var cssRules = `
+    .info.legend {
+        background: white;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .circle {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    `;
+
+
+    // Create a <style> element
+    var styleElement = document.createElement('style');
+
+    // Append CSS rules to the <style> element
+    styleElement.appendChild(document.createTextNode(cssRules));
+
+    // Append the <style> element to the graphics-output area
+    graphicArea.node().appendChild(styleElement);
+
+    //LEGEND CSS---------------------------------------------------------------------------------------------
+    
     graphicArea.append("div")
         .classed("card card-body bg-light", true)
         .html("<h6>Parameter:</h6><select id='selDatasetDemo'></select>");
@@ -335,9 +357,9 @@ submenu3.addEventListener('click', function(event) {
 
             //add legend colors and labels
             div.innerHTML +=
-                '<div class="legend-item"><i style="background:' + colorLow + '"></i> Lowest</div>';
+                '<div class="legend-item"><i class="circle" style="background:' + colorLow + '"></i> Lowest</div>';
             div.innerHTML +=
-                '<div class="legend-item"><i style="background:' + colorHigh + '"></i> Highest</div>';
+                '<div class="legend-item"><i class="circle" style="background:' + colorHigh + '"></i> Highest</div>';
 
             return div;
         };
