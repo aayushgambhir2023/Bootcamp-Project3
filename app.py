@@ -10,15 +10,15 @@ from scipy.stats import linregress
 
 app = Flask(__name__, static_url_path='/static')
 
-client = MongoClient('mongodb+srv://catdb:projectboot@catdbcluster.n7tfznu.mongodb.net/')
-db_ak = client['cat_db']
 
-client = MongoClient('mongodb+srv://city_toronto:project3@cluster0.gt72z8e.mongodb.net/')
+client = MongoClient('mongodb+srv://city_toronto:project3@cluster0.gt72z8e.mongodb.net/?tls=true&tlsAllowInvalidCertificates=true')
 db = client['city_toronto']
 
-collection1_ak = db_ak['expense']
-collection2_ak = db_ak['revenue']
-collection3_ak = db_ak['total_year']
+collection1_ak = db['expense']
+collection2_ak = db['revenue']
+collection3_ak = db['total_year']
+collection4_ak = db['expense_sub_cat']
+collection5_ak = db['revenue_sub_cat']
 wards_collection = db["city_wards_data"]
 demographic_collection = db["demographic_data"]
 statsexpense_collectiom = db['stats_expenses']
@@ -463,6 +463,93 @@ def summarize_data(year, field):
         summarized_data[program] = summarized_data.get(program, 0) + value
 
     return summarized_data
+
+##-----------------------------------------------------------------------------------------------------------------------------##
+## API to display all sub-category expense data
+@app.route('/api/v1.0/merged_df_ak_final_exp_subcat', methods=['GET'])
+def display_data_exp_subcat_ak():
+    # Fetch data from MongoDB
+    data = list(collection4_ak.find())
+    
+    # Convert ObjectId to string in each document
+    for item in data:
+        item['_id'] = str(item['_id'])
+    
+    return jsonify(data)
+
+## API to display all sub category expense data year wise, running a loop to make dynamic
+@app.route('/api/v1.0/merged_df_ak_final_exp_subcat/<int:year>', methods=['GET'])
+def display_data_by_year_exp_sub_cat_ak(year):
+    # Fetch data from MongoDB
+    data = list(collection4_ak.find())
+    
+    # Convert ObjectId to string in each document
+    for item in data:
+        item['_id'] = str(item['_id'])
+    
+    # Filter data by year
+    sub_cat_year_data = []
+    total_sub_cat_expense_year = 0  # Initialize total expense for the year
+    
+    for item in data:
+        for key, value in item.items():
+            if key.startswith("Sub Expense") and key.endswith(f"{year}(millions)"):
+                total_sub_cat_expense_year += value  # Add expense to total for the year
+
+    # Calculate percentage share for each category
+    for item in data:
+        for key, value in item.items():
+            if key.startswith("Sub Expense") and key.endswith(f"{year}(millions)"):
+                sub_category_name = item["Sub-Category Name"]
+                expense = value
+                percentage_share = (expense / total_sub_cat_expense_year) * 100 if total_sub_cat_expense_year != 0 else 0
+                sub_cat_year_data.append({"Sub-Category Name": sub_category_name, "Sub Expense": expense, "Share": percentage_share})
+    
+    return jsonify(sub_cat_year_data)    
+
+
+## API to display all sub-category revenue data
+@app.route('/api/v1.0/merged_df_ak_final_rev_subcat', methods=['GET'])
+def display_data_rev_subcat_ak():
+    # Fetch data from MongoDB
+    data = list(collection5_ak.find())
+    
+    # Convert ObjectId to string in each document
+    for item in data:
+        item['_id'] = str(item['_id'])
+    
+    return jsonify(data)
+
+
+## API to display all sub category revenue data year wise, running a loop to make dynamic
+@app.route('/api/v1.0/merged_df_ak_final_rev_subcat/<int:year>', methods=['GET'])
+def display_data_by_year_rev_sub_cat_ak(year):
+    # Fetch data from MongoDB
+    data = list(collection5_ak.find())
+    
+    # Convert ObjectId to string in each document
+    for item in data:
+        item['_id'] = str(item['_id'])
+    
+    # Filter data by year
+    sub_cat_year_data_rev = []
+    total_sub_cat_revenue_year = 0  # Initialize total expense for the year
+    
+    for item in data:
+        for key, value in item.items():
+            if key.startswith("Sub Revenue") and key.endswith(f"{year}(millions)"):
+                total_sub_cat_revenue_year += value  # Add expense to total for the year
+
+    # Calculate percentage share for each category
+    for item in data:
+        for key, value in item.items():
+            if key.startswith("Sub Revenue") and key.endswith(f"{year}(millions)"):
+                category_name = item["Sub-Category Name"]
+                revenue = value
+                percentage_share = (revenue / total_sub_cat_revenue_year) * 100 if total_sub_cat_revenue_year != 0 else 0
+                sub_cat_year_data_rev.append({"Sub-Category Name": category_name, "Sub Revenue": revenue, "Share": percentage_share})
+    
+    return jsonify(sub_cat_year_data_rev)    
 
 
 @app.route("/")
